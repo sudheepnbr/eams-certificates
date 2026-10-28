@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Certificate verification</title>
+  <title>Oman International Hospital</title>
   <style>
     body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #f4f6fb; color: #0f2744; font-family: "Segoe UI", Arial, sans-serif; }
     main { width: min(520px, calc(100% - 32px)); background: #fff; border: 1px solid #dbe3ee; border-radius: 16px; padding: 28px 24px; text-align: center; }
@@ -23,6 +23,13 @@
   <script>
     var params = new URLSearchParams(location.search);
     var id = (params.get("id") || "").trim();
+    try {
+      if (!id) id = sessionStorage.getItem("eamsCertId") || "";
+      if (id) sessionStorage.setItem("eamsCertId", id);
+    } catch (err) {}
+    if (location.search || location.hash) {
+      history.replaceState(null, "", location.pathname);
+    }
     var result = document.getElementById("result");
     var code = document.getElementById("code");
     var phone = "24903500";
