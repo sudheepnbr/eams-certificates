@@ -9,7 +9,6 @@
     main { width: min(520px, calc(100% - 32px)); background: #fff; border: 1px solid #dbe3ee; border-radius: 16px; padding: 28px 24px; text-align: center; }
     h1 { margin: 0 0 8px; font-size: 1.35rem; }
     p { margin: 0; line-height: 1.5; }
-    .id { margin-top: 14px; color: #64748b; font-weight: 700; }
     a { color: #0f2744; font-weight: 800; }
     .miss { color: #b91c1c; }
   </style>
@@ -17,45 +16,7 @@
 <body>
   <main>
     <h1>Oman International Hospital</h1>
-    <p id="result">Checking this certificate…</p>
-    <p class="id" id="code"></p>
+    <p class="miss">This certificate was not found. For more information please contact <a href="tel:+96824903500">24903500</a>.</p>
   </main>
-  <script>
-    var params = new URLSearchParams(location.search);
-    var id = (params.get("id") || "").trim();
-    try {
-      if (!id) id = sessionStorage.getItem("eamsCertId") || "";
-      if (id) sessionStorage.setItem("eamsCertId", id);
-    } catch (err) {}
-    if (location.search || location.hash) {
-      history.replaceState(null, "", location.pathname);
-    }
-    var result = document.getElementById("result");
-    var code = document.getElementById("code");
-    var phone = "24903500";
-    function contact() {
-      return ' For more information please contact <a href="tel:+96824903500">' + phone + "</a>.";
-    }
-    if (!id) {
-      result.className = "miss";
-      result.innerHTML = "This certificate number was not found." + contact();
-    } else {
-      code.textContent = id;
-      fetch("certificates.json?t=" + Date.now(), { cache: "no-store" })
-        .then(function (response) { return response.json(); })
-        .then(function (log) {
-          if (log && log[id]) {
-            result.innerHTML = "Verification successfully completed from Oman International Hospital Muscat." + contact();
-          } else {
-            result.className = "miss";
-            result.innerHTML = "This certificate number was not found." + contact();
-          }
-        })
-        .catch(function () {
-          result.className = "miss";
-          result.innerHTML = "This certificate number was not found." + contact();
-        });
-    }
-  </script>
 </body>
 </html>
